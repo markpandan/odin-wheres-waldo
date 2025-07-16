@@ -1,0 +1,33 @@
+:root {
+  --primary-color: #021526;
+  --secondary-color: #03346e;
+  --tertiary-color: #6eacda;
+  --accent-color: #e2e2b6;
+  --text-color: white;
+
+  --default-border-value: 2px solid var(--tertiary-color);
+  --default-border-radius: 16px;
+  --default-box-shadow-value: rgba(255, 255, 255, 0.2) 2.5px 2.5px 2.6px 2px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.container {
+  margin: auto;
+  max-width: 1140px;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+body {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}

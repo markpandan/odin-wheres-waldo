@@ -1,0 +1,40 @@
+nav {
+  background-color: var(--secondary-color);
+  padding: 1rem 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--accent-color);
+  height: 4rem;
+}
+
+.navbarMiniHeader {
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--accent-color);
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbarContainer a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbarNav {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
+
+.navItem {
+  cursor: pointer;
+  padding: 4px 8px;
+  overflow: hidden;
+}
+
+.navItem:hover {
+  border-bottom: var(--default-border-value);
+}
