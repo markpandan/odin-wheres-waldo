@@ -1,5 +1,6 @@
 .gameContainer {
+  cursor: pointer;
   height: 500px;
   background-color: var(--tertiary-color);
-  /* position: relative; */
+  position: relative;
 }
