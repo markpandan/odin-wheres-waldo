@@ -27,5 +27,5 @@ export const getNaturalPosition = (containedPos, scale) => {
   const naturalX = containedX / scale;
   const naturalY = containedY / scale;
 
-  return { naturalX, naturalY };
+  return [naturalX, naturalY];
 };
