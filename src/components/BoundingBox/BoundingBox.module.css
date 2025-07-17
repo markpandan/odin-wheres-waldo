@@ -1,16 +1,22 @@
 .boundingBoxContainer {
   position: absolute;
-  border: 2px solid var(--accent-color);
-  width: 50px;
-  height: 50px;
-  transform: translate(-25px, -25px);
-  color: var(--accent-color);
   white-space: nowrap;
+  width: 70px;
+  height: 70px;
+  transform: translate(-35px, -35px);
+
+  border: 2px solid red;
+  color: red;
+
+  pointer-events: none;
+  box-shadow: 1px 1px black;
 }
 
 .boundingBoxDetails {
   transform: translate(120%);
   font-size: 0.6rem;
+
+  text-shadow: 1px 1px black;
 }
 
 .boundingBoxObject {

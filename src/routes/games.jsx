@@ -9,12 +9,22 @@ const Games = () => {
   };
 
   return (
-    <div className="container page-container">
-      <h2>Game</h2>
-      <div className={styles.gameContainer} onClick={(e) => handleClick(e)}>
+    <>
+      <div
+        className={`flex-container ${styles.gameContainer}`}
+        onClick={(e) => handleClick(e)}
+      >
+        <img
+          className={styles.gameImage}
+          src="/src/assets/genshin-impact.jpeg"
+        />
         {pos && <BoundingBox pos={pos} />}
+        <div className={styles.gameObjectives}>
+          <div>Objectives</div>
+          <div>Stopwatch</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
