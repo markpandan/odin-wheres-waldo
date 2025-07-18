@@ -2,12 +2,12 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import "./main.css";
-import Root from "./routes/root";
 import ErrorPage from "./error-page";
-import Home from "./routes/home";
-import Highscores from "./routes/highscores";
+import "./main.css";
 import Games from "./routes/games";
+import Highscores from "./routes/highscores";
+import Home from "./routes/home";
+import Root from "./routes/root";
 
 const router = createBrowserRouter([
   {

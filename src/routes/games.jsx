@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./games.module.css";
+import { useParams } from "react-router-dom";
 import BoundingBox from "../components/BoundingBox";
+import HighScoreModal from "../components/HighScoreModal";
+import StartModal from "../components/StartModal";
+import Stopwatch from "../components/Stopwatch";
+import { fetchGet } from "../utils/fetchUtils";
 import {
   getContainedSize,
   getContainedX,
   getNaturalPosition,
   isInsideBox,
 } from "../utils/imageUtils";
-import Stopwatch from "../components/Stopwatch";
-import StartModal from "../components/StartModal";
-import HighScoreModal from "../components/HighScoreModal";
-import { fetchGet } from "../utils/fetchUtils";
-import { useParams } from "react-router-dom";
+import styles from "./games.module.css";
 
 const Games = () => {
   const { gameId } = useParams();
@@ -63,6 +63,8 @@ const Games = () => {
     fetchGame();
 
     return () => abortController.abort();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
