@@ -13,19 +13,24 @@ const Highscores = () => {
           </select>
         </div>
       </div>
+
       <table>
-        <tr>
-          <th>Username</th>
-          <th>Time Finished</th>
-        </tr>
-        <tr>
-          <td>Mark</td>
-          <td>00:01:23</td>
-        </tr>
-        <tr>
-          <td>Marky</td>
-          <td>00:02:23</td>
-        </tr>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Time Finished</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mark</td>
+            <td>00:01:23</td>
+          </tr>
+          <tr>
+            <td>Marky</td>
+            <td>00:02:23</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );

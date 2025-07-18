@@ -29,3 +29,11 @@ export const getNaturalPosition = (containedPos, scale) => {
 
   return [naturalX, naturalY];
 };
+
+export const isInsideBox = ([selectedX, selectedY], box) => {
+  const [x1, y1, x2, y2] = box;
+
+  return (
+    selectedX >= x1 && selectedX <= x2 && selectedY >= y1 && selectedY <= y2
+  );
+};
