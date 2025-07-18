@@ -10,8 +10,12 @@ import {
 import Stopwatch from "../components/Stopwatch";
 import StartModal from "../components/StartModal";
 import HighScoreModal from "../components/HighScoreModal";
+import { fetchGet } from "../utils/fetchUtils";
+import { useParams } from "react-router-dom";
 
 const Games = () => {
+  const { gameId } = useParams();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -29,9 +33,9 @@ const Games = () => {
 
     const fetchGame = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5000/games/images/1/entities",
-          { signal: abortController.signal }
+        const response = await fetchGet(
+          `games/images/${gameId}/entities`,
+          abortController.signal
         );
 
         const jsonData = await response.json();
@@ -67,6 +71,7 @@ const Games = () => {
     if (isAllSelected && entities.length !== 0) {
       console.log("Game Over");
       setIsActive(false);
+      setPos();
 
       highScoreDialogRef.current.show();
     }
@@ -122,6 +127,7 @@ const Games = () => {
             <HighScoreModal
               ref={highScoreDialogRef}
               time={time}
+              gameId={gameId}
               onRestart={() => {
                 highScoreDialogRef.current.close();
                 setTime(0);

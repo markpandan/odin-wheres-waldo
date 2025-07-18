@@ -1,33 +1,57 @@
 import { useMemo } from "react";
 import { computeTime } from "../../utils/timeUtils";
+import useForm from "../../hooks/useForm";
+import { fetchPost } from "../../utils/fetchUtils";
+import { useNavigate } from "react-router-dom";
 // import styles from "./StartModal.module.css";
 
-const HighScoreModal = ({ ref, time, onRestart }) => {
-  const [minutes, seconds, miliseconds] = useMemo(
-    () => computeTime(time),
-    [time]
-  );
+const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
+  const { inputs, handleChange } = useForm({
+    name: "",
+  });
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const timeDisplay = useMemo(() => {
+    const [minutes, seconds, miliseconds] = computeTime(time);
+    return `${minutes}:${seconds}.${miliseconds}`;
+  }, [time]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Submitted");
-    // Fetch POST
+    const routeURL = `games/highscores?gameId=${gameId}`;
+    await fetchPost(routeURL, {
+      ...inputs,
+      time: timeDisplay,
+    });
+
+    // TODO: Add error catcher
+    navigate("/highscores", { replace: true });
   };
 
   return (
     <dialog ref={ref}>
       <div className="dialog-container">
         <p>Game Over</p>
-        <p>Time Elapsed: {`${minutes}:${seconds}.${miliseconds}`}</p>
+        <p>Time Elapsed: {timeDisplay}</p>
 
         <form onSubmit={handleSubmit}>
           <div className="input-fields">
             <label htmlFor="playerName">Insert your name:</label>
-            <input type="text" name="playerName" id="playerName" required />
+            <input
+              type="text"
+              name="name"
+              id="playerName"
+              onChange={handleChange}
+              value={inputs.name}
+              required
+            />
           </div>
           <div className="button-group">
-            <button onClick={onRestart}>Try Again</button>
+            <button type="button" onClick={onRestart} formNoValidate>
+              Try Again
+            </button>
             <button type="submit">Submit</button>
           </div>
         </form>
