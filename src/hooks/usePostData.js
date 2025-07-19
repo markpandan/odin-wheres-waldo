@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchGet } from "../utils/fetchUtils";
+import { fetchPost } from "../utils/fetchUtils";
 
-const useGetData = (route, token) => {
-  const [data, setData] = useState([]);
+const usePostData = (route, body, token) => {
+  const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,7 +11,12 @@ const useGetData = (route, token) => {
 
     const fetchPosts = async () => {
       try {
-        const response = await fetchGet(route, abortController.signal, token);
+        const response = await fetchPost(
+          route,
+          body,
+          abortController.signal,
+          token
+        );
 
         const jsonData = await response.json();
         if (!response.ok) {
@@ -32,9 +37,11 @@ const useGetData = (route, token) => {
     fetchPosts();
 
     return () => abortController.abort();
-  }, [route, token]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { data, loading, error };
 };
 
-export default useGetData;
+export default usePostData;

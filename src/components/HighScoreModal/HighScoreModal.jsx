@@ -1,29 +1,53 @@
-import { useMemo } from "react";
-import { computeTime } from "../../utils/timeUtils";
+import { useBeforeUnload, useBlocker, useNavigate } from "react-router-dom";
 import useForm from "../../hooks/useForm";
-import { fetchPost } from "../../utils/fetchUtils";
-import { useNavigate } from "react-router-dom";
+import { fetchDelete, fetchPut } from "../../utils/fetchUtils";
 import styles from "./HighScoreModal.module.css";
+import { useCallback, useEffect, useState } from "react";
 
-const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
+const HighScoreModal = ({ ref, score, gameId, onRestart }) => {
+  const routeUrl = `games/highscores?gameId=${gameId}`;
   const { inputs, handleChange } = useForm({
     name: "",
   });
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const navigate = useNavigate();
 
-  const [minutes, seconds, miliseconds] = useMemo(() => {
-    return computeTime(time);
-  }, [time]);
+  const deleteScore = useCallback(async () => {
+    if (score && !isSubmit)
+      await fetchDelete(routeUrl, {
+        highscoreId: score.id,
+      });
+  }, [routeUrl, isSubmit, score]);
+
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      !isSubmit && currentLocation.pathname !== nextLocation.pathname
+  );
+
+  useEffect(() => {
+    if (blocker.state === "blocked") {
+      deleteScore();
+      blocker.proceed();
+    }
+  }, [blocker, deleteScore]);
+
+  useBeforeUnload(async () => {
+    deleteScore();
+  });
+
+  const handleRestart = async (e) => {
+    deleteScore();
+    onRestart(e);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmit(true);
 
-    const timeDisplay = `${minutes}:${seconds}.${miliseconds}`;
-    const routeURL = `games/highscores?gameId=${gameId}`;
-    await fetchPost(routeURL, {
-      ...inputs,
-      time: timeDisplay,
+    await fetchPut(routeUrl, {
+      highscoreId: score.id,
+      name: inputs.name,
     });
 
     // TODO: Add error catcher
@@ -35,12 +59,7 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
       <div className={styles.dialogContainer}>
         <h2>You've Found Them All!</h2>
         <hr />
-        <h3>
-          Time Elapsed:{" "}
-          {`${
-            minutes != 0 ? minutes + " minutes" : ""
-          } ${seconds}.${miliseconds} seconds`}
-        </h3>
+        <h3>Time Elapsed: {score && score.time}</h3>
         <form onSubmit={handleSubmit}>
           <div className="input-fields">
             <label htmlFor="playerName">Insert your name:</label>
@@ -56,7 +75,7 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
           <div className="button-group">
             <button
               type="button"
-              onClick={onRestart}
+              onClick={handleRestart}
               className="dialog-button"
               formNoValidate
             >

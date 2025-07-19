@@ -6,12 +6,14 @@ import ObjectiveModal from "../components/ObjectiveModal";
 import StartModal from "../components/StartModal";
 import Stopwatch from "../components/Stopwatch";
 import useGetData from "../hooks/useGetData";
+import { fetchPost } from "../utils/fetchUtils";
 import {
   getContainedPos,
   getContainedSize,
   getNaturalPosition,
   isInsideBox,
 } from "../utils/imageUtils";
+import { computeTime } from "../utils/timeUtils";
 import styles from "./games.module.css";
 
 const Games = () => {
@@ -24,6 +26,7 @@ const Games = () => {
   const [time, setTime] = useState(0);
 
   const [objectivesPos, setObjectivesPos] = useState([]);
+  const [score, setScore] = useState();
 
   const startDialogRef = useRef(false);
   const highScoreDialogRef = useRef(false);
@@ -47,13 +50,26 @@ const Games = () => {
   useEffect(() => {
     const isAllSelected = entities.every((entity) => entity.selected == true);
 
-    if (isAllSelected && entities.length !== 0) {
-      console.log("Game Over");
-      setIsGameActive(false);
-      setObjectivesPos([]);
+    if (!(isAllSelected && entities.length !== 0)) return;
 
-      highScoreDialogRef.current.show();
-    }
+    const postScore = async () => {
+      const routeUrl = `games/highscores?gameId=${gameId}`;
+
+      const [minutes, seconds, miliseconds] = computeTime(time);
+      const timeDisplay = `${minutes}:${seconds}.${miliseconds}`;
+      const response = await fetchPost(routeUrl, { time: timeDisplay });
+      const jsonData = await response.json();
+      setScore(jsonData.output);
+    };
+
+    console.log("Game Over");
+    setIsGameActive(false);
+    setObjectivesPos([]);
+
+    postScore();
+    highScoreDialogRef.current.show();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entities]);
 
   const handleLoad = () => {
@@ -111,12 +127,12 @@ const Games = () => {
             <ObjectiveModal ref={objectDialogRef} entities={entities} />
             <HighScoreModal
               ref={highScoreDialogRef}
-              time={time}
+              score={score}
               gameId={gameId}
+              isGameActive={isGameActive}
               onRestart={() => {
                 highScoreDialogRef.current.close();
                 setTime(0);
-                setIsGameActive(true);
                 setEntities(
                   entities.map((values) => {
                     return { ...values, selected: false };

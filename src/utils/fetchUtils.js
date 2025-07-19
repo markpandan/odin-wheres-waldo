@@ -12,7 +12,7 @@ export const fetchGet = async (route, signal, token) => {
   });
 };
 
-export const fetchPost = async (route, body, token) => {
+export const fetchPost = async (route, body, signal, token) => {
   return await fetch(`${HOST_NAME}/${route}`, {
     method: "POST",
     headers: {
@@ -20,21 +20,32 @@ export const fetchPost = async (route, body, token) => {
       "Content-Type": "application/json",
     },
     mode: "cors",
+    signal,
     body: JSON.stringify(body),
   });
 };
 
-export const fetchPut = async (route, signal) => {
+export const fetchPut = async (route, body, signal, token) => {
   return await fetch(`${HOST_NAME}/${route}`, {
     method: "PUT",
+    headers: {
+      Authorization: token || "",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
     mode: "cors",
     signal,
   });
 };
 
-export const fetchDelete = async (route, signal) => {
+export const fetchDelete = async (route, body, signal, token) => {
   return await fetch(`${HOST_NAME}/${route}`, {
     method: "DELETE",
+    headers: {
+      Authorization: token || "",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
     mode: "cors",
     signal,
   });
