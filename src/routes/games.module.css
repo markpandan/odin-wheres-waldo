@@ -16,12 +16,47 @@
   flex-grow: 1;
 }
 
-.gameObjectives {
+.gameUtilities {
+  position: absolute;
+  width: 20rem;
+  bottom: 5vh;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-color: var(--primary-color-transparent);
+
+  color: var(--accent-color);
+  text-shadow: var(--default-text-shadow);
   text-align: center;
+
   height: 3rem;
   padding: 0.5rem;
+  border-radius: 16px;
 
-  display: flex;
+  /* display: flex;
   justify-content: space-around;
+  align-items: center; */
+}
+
+.utilitiesContainer {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  height: 100%;
+}
+
+.utilitiesContainer > button {
+  background-color: unset;
+  color: var(--accent-color);
+  font-size: var;
+  height: 100%;
+  border: 1px solid var(--accent-color);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.utilitiesContainer > button:hover {
+  background-color: var(--accent-color);
+  color: black;
 }

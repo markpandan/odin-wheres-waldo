@@ -1,0 +1,65 @@
+.objectiveDialog {
+  position: fixed;
+  background-color: var(--primary-color-transparent);
+  border: none;
+
+  left: auto;
+  right: 10%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  max-width: 100%;
+  min-height: 50vh;
+  pointer-events: none;
+  border-radius: 16px;
+
+  z-index: 2;
+
+  color: var(--accent-color);
+  text-shadow: var(--default-text-shadow);
+  text-align: center;
+}
+
+.objectiveDialog[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.closeObjectiveDialog {
+  position: absolute;
+  transform: translate(100%, -110%);
+
+  top: 0;
+  right: 0;
+
+  background-color: var(--primary-color-transparent);
+  padding: 0.25rem 0.5rem;
+  border-radius: 50%;
+  text-align: center;
+
+  color: var(--accent-color);
+  border: none;
+
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.entityList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.entityContainer {
+  width: 4rem;
+}
+
+.entityImage {
+  width: 4rem;
+  height: auto;
+}
+
+.selected {
+  opacity: 0.5;
+}

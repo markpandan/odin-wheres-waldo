@@ -12,9 +12,12 @@ import {
   isInsideBox,
 } from "../utils/imageUtils";
 import styles from "./games.module.css";
+import ObjectiveModal from "../components/ObjectiveModal";
 
 const Games = () => {
   const { gameId } = useParams();
+
+  const [isGameActive, setIsGameActive] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,11 +25,13 @@ const Games = () => {
   const [image, setImage] = useState();
   const [entities, setEntities] = useState([]);
   const [time, setTime] = useState(0);
-  const [pos, setPos] = useState();
 
-  const [active, setIsActive] = useState(false);
+  // const [pos, setPos] = useState();
+  const [objectivesPos, setObjectivesPos] = useState([]);
+
   const startDialogRef = useRef(false);
   const highScoreDialogRef = useRef(false);
+  const objectDialogRef = useRef(false);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -72,8 +77,8 @@ const Games = () => {
 
     if (isAllSelected && entities.length !== 0) {
       console.log("Game Over");
-      setIsActive(false);
-      setPos();
+      setIsGameActive(false);
+      setObjectivesPos([]);
 
       highScoreDialogRef.current.show();
     }
@@ -82,6 +87,7 @@ const Games = () => {
   const handleLoad = () => {
     startDialogRef.current.show();
     // highScoreDialogRef.current.close();
+    objectDialogRef.current.close();
   };
 
   const handleImageClick = (e) => {
@@ -91,31 +97,30 @@ const Games = () => {
     const containedX = getContainedX(offsetX, containedWidth, e.target.width);
     const containedY = offsetY;
 
-    if (!containedX) {
-      setPos();
-    } else {
-      const naturalPos = getNaturalPosition([containedX, containedY], scale);
+    const naturalPos = getNaturalPosition([containedX, containedY], scale);
 
-      setPos([offsetX, offsetY]);
+    entities.some((entity, currentIndex) => {
+      if (isInsideBox(naturalPos, entity.box) && !entity.selected) {
+        console.log("Entity Detected");
 
-      entities.some((entity, currentIndex) => {
-        if (isInsideBox(naturalPos, entity.box)) {
-          console.log("Entity Detected");
+        setObjectivesPos((objectivesPos) => [
+          ...objectivesPos,
+          [offsetX, offsetY],
+        ]);
 
-          setEntities(
-            entities.map((values, index) => {
-              if (index == currentIndex) {
-                return { ...values, selected: true };
-              } else {
-                return values;
-              }
-            })
-          );
+        setEntities(
+          entities.map((values, index) => {
+            if (index == currentIndex) {
+              return { ...values, selected: true };
+            } else {
+              return values;
+            }
+          })
+        );
 
-          return true;
-        }
-      });
-    }
+        return true;
+      }
+    });
   };
 
   return (
@@ -126,6 +131,7 @@ const Games = () => {
           <div> Loading...</div>
         ) : (
           <>
+            <ObjectiveModal ref={objectDialogRef} entities={entities} />
             <HighScoreModal
               ref={highScoreDialogRef}
               time={time}
@@ -133,19 +139,20 @@ const Games = () => {
               onRestart={() => {
                 highScoreDialogRef.current.close();
                 setTime(0);
-                setIsActive(true);
+                setIsGameActive(true);
                 setEntities(
                   entities.map((values) => {
                     return { ...values, selected: false };
                   })
                 );
+                setObjectivesPos([]);
               }}
             />
             <StartModal
               ref={startDialogRef}
               onStart={() => {
                 startDialogRef.current.close();
-                setIsActive(true);
+                setIsGameActive(true);
               }}
             />
             <img
@@ -154,12 +161,22 @@ const Games = () => {
               onClick={handleImageClick}
               onLoad={handleLoad}
             />
-            {pos && <BoundingBox pos={pos} />}
+            {objectivesPos.map((pos, index) => (
+              <BoundingBox key={index} pos={pos} />
+            ))}
           </>
         )}
-        <div className={styles.gameObjectives}>
-          <div>Objectives</div>
-          <Stopwatch isActive={active} time={time} setTime={setTime} />
+        <div className={`${styles.gameUtilities}`}>
+          <div className={`container ${styles.utilitiesContainer}`}>
+            <Stopwatch isActive={isGameActive} time={time} setTime={setTime} />
+            <button
+              onClick={() => {
+                objectDialogRef.current.show();
+              }}
+            >
+              <span>Objectives</span>
+            </button>
+          </div>
         </div>
       </div>
     </>

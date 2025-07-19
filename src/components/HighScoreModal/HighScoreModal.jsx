@@ -3,7 +3,7 @@ import { computeTime } from "../../utils/timeUtils";
 import useForm from "../../hooks/useForm";
 import { fetchPost } from "../../utils/fetchUtils";
 import { useNavigate } from "react-router-dom";
-// import styles from "./StartModal.module.css";
+import styles from "./HighScoreModal.module.css";
 
 const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
   const { inputs, handleChange } = useForm({
@@ -31,8 +31,8 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
   };
 
   return (
-    <dialog ref={ref}>
-      <div className="dialog-container">
+    <dialog ref={ref} className={styles.highscoreDialog}>
+      <div className={styles.dialogContainer}>
         <p>Game Over</p>
         <p>Time Elapsed: {timeDisplay}</p>
 

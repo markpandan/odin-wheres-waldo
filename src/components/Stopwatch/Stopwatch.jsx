@@ -15,8 +15,7 @@ const Stopwatch = ({ isActive, time, setTime }) => {
     return () => {
       clearInterval(interval);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive]);
+  }, [isActive, setTime]);
 
   return (
     <div>

@@ -5,8 +5,8 @@
   height: 70px;
   transform: translate(-35px, -35px);
 
-  border: 2px solid red;
-  color: red;
+  border: 2px solid green;
+  /* color: red; */
 
   pointer-events: none;
   box-shadow: 1px 1px black;
