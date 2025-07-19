@@ -31,11 +31,11 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
   };
 
   return (
-    <dialog ref={ref} className={styles.highscoreDialog}>
+    <dialog ref={ref} className="dialog-blur">
       <div className={styles.dialogContainer}>
-        <p>Game Over</p>
-        <p>Time Elapsed: {timeDisplay}</p>
-
+        <h2>Game Over</h2>
+        <hr />
+        <h3>Time Elapsed: {timeDisplay}</h3>
         <form onSubmit={handleSubmit}>
           <div className="input-fields">
             <label htmlFor="playerName">Insert your name:</label>
@@ -49,10 +49,17 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
             />
           </div>
           <div className="button-group">
-            <button type="button" onClick={onRestart} formNoValidate>
+            <button
+              type="button"
+              onClick={onRestart}
+              className="dialog-button"
+              formNoValidate
+            >
               Try Again
             </button>
-            <button type="submit">Submit</button>
+            <button type="submit" className="dialog-button">
+              Submit
+            </button>
           </div>
         </form>
       </div>

@@ -1,18 +1,9 @@
-.startDialog {
-  width: 100%;
-  height: 100%;
-
-  background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(20px) brightness(20%);
-
-  z-index: 2;
-}
-
 .dialogContainer {
-  background-color: white;
+  background-color: var(--secondary-color);
   padding: 1rem;
-  border: 1px solid black;
-  width: max-content;
+  border: none;
+  border-radius: var(--default-border-radius);
+  width: 40rem;
 
   top: 50%;
   left: 50%;
@@ -21,6 +12,28 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 1rem;
+  color: var(--accent-color);
+  text-align: center;
+}
+
+.startBodyContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.startBodyContainer > * {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bodyName > * {
+  text-align: end;
+}
+
+.bodyValue > * {
+  text-align: start;
 }

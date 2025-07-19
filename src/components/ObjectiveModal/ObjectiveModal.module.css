@@ -13,6 +13,7 @@
   pointer-events: none;
   border-radius: 16px;
 
+  /* cursor: default; */
   z-index: 2;
 
   color: var(--accent-color);
