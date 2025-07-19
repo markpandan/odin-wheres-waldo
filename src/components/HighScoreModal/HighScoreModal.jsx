@@ -27,7 +27,7 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
     });
 
     // TODO: Add error catcher
-    navigate("/highscores", { replace: true });
+    navigate(`/highscores?gameId=${gameId}`, { replace: true });
   };
 
   return (

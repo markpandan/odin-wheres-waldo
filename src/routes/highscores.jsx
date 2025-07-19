@@ -1,20 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useGetData from "../hooks/useGetData";
 import styles from "./highscores.module.css";
 import { fetchGet } from "../utils/fetchUtils";
+import { useSearchParams } from "react-router-dom";
 
 const Highscores = () => {
   const [highScoreList, setHighScoreList] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const gameId = searchParams.get("gameId") || "";
+
+  useEffect(() => {
+    if (!gameId) return;
+
+    const abortController = new AbortController();
+
+    const fetchHighscores = async () => {
+      try {
+        const route = `games/highscores?gameId=${gameId}`;
+        const response = await fetchGet(route, abortController.signal);
+
+        const jsonData = await response.json();
+        if (!response.ok) {
+          setHighScoreList(jsonData.message);
+        } else {
+          setHighScoreList(jsonData.output);
+        }
+      } catch (error) {
+        if (!error.name === "AbortError") {
+          console.error(error.message);
+        }
+      }
+    };
+
+    fetchHighscores();
+
+    return () => abortController.abort();
+  }, [gameId]);
 
   const gameList = useGetData("games/list");
 
   const handleSelectChange = async (e) => {
-    const gameId = e.target.value;
+    setSearchParams({ gameId: e.target.value });
 
-    const response = await fetchGet(`games/highscores?gameId=${gameId}`);
-    const jsonData = await response.json();
+    // const response = await fetchGet(`games/highscores?gameId=${gameId}`);
+    // const jsonData = await response.json();
 
-    setHighScoreList(jsonData.output);
+    // setHighScoreList(jsonData.output);
   };
 
   return (
@@ -26,7 +58,7 @@ const Highscores = () => {
           <select
             name="image"
             id="image"
-            value=""
+            value={gameId}
             onChange={handleSelectChange}
           >
             <option value="" disabled>
