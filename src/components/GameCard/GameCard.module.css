@@ -1,11 +1,15 @@
 .gameCardContainer {
   height: 250px;
-  /* box-shadow: var(--default-box-shadow-value); */
+  box-shadow: var(--default-box-shadow-value);
+}
+.gameCardContainer:hover {
+  transform: scale(1.03);
 }
 
 .cardImage {
   height: 70%;
-  background-color: grey;
+  object-fit: cover;
+  display: block;
 }
 
 .cardDetails {

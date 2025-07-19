@@ -12,14 +12,14 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
 
   const navigate = useNavigate();
 
-  const timeDisplay = useMemo(() => {
-    const [minutes, seconds, miliseconds] = computeTime(time);
-    return `${minutes}:${seconds}.${miliseconds}`;
+  const [minutes, seconds, miliseconds] = useMemo(() => {
+    return computeTime(time);
   }, [time]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const timeDisplay = `${minutes}:${seconds}.${miliseconds}`;
     const routeURL = `games/highscores?gameId=${gameId}`;
     await fetchPost(routeURL, {
       ...inputs,
@@ -33,9 +33,14 @@ const HighScoreModal = ({ ref, time, gameId, onRestart }) => {
   return (
     <dialog ref={ref} className="dialog-blur">
       <div className={styles.dialogContainer}>
-        <h2>Game Over</h2>
+        <h2>You've Found Them All!</h2>
         <hr />
-        <h3>Time Elapsed: {timeDisplay}</h3>
+        <h3>
+          Time Elapsed:{" "}
+          {`${
+            minutes != 0 ? minutes + " minutes" : ""
+          } ${seconds}.${miliseconds} seconds`}
+        </h3>
         <form onSubmit={handleSubmit}>
           <div className="input-fields">
             <label htmlFor="playerName">Insert your name:</label>

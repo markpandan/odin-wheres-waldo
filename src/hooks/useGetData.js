@@ -3,6 +3,8 @@ import { fetchGet } from "../utils/fetchUtils";
 
 const useGetData = (route, token) => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -13,14 +15,17 @@ const useGetData = (route, token) => {
 
         const jsonData = await response.json();
         if (!response.ok) {
-          setData(jsonData.message);
+          setError(jsonData.message);
         } else {
           setData(jsonData.output);
         }
       } catch (error) {
         if (!error.name === "AbortError") {
           console.error(error.message);
+          setError(`An error has occured. Error Name: ${error.name}`);
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -29,7 +34,7 @@ const useGetData = (route, token) => {
     return () => abortController.abort();
   }, [route, token]);
 
-  return data;
+  return { data, loading, error };
 };
 
 export default useGetData;

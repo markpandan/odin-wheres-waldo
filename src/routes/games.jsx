@@ -2,75 +2,47 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import BoundingBox from "../components/BoundingBox";
 import HighScoreModal from "../components/HighScoreModal";
+import ObjectiveModal from "../components/ObjectiveModal";
 import StartModal from "../components/StartModal";
 import Stopwatch from "../components/Stopwatch";
-import { fetchGet } from "../utils/fetchUtils";
+import useGetData from "../hooks/useGetData";
 import {
+  getContainedPos,
   getContainedSize,
-  getContainedX,
   getNaturalPosition,
   isInsideBox,
 } from "../utils/imageUtils";
 import styles from "./games.module.css";
-import ObjectiveModal from "../components/ObjectiveModal";
 
 const Games = () => {
   const { gameId } = useParams();
 
   const [isGameActive, setIsGameActive] = useState(false);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const [image, setImage] = useState();
   const [entities, setEntities] = useState([]);
   const [time, setTime] = useState(0);
 
-  // const [pos, setPos] = useState();
   const [objectivesPos, setObjectivesPos] = useState([]);
 
   const startDialogRef = useRef(false);
   const highScoreDialogRef = useRef(false);
   const objectDialogRef = useRef(false);
 
+  const { data, loading, error } = useGetData(
+    `games/images/${gameId}/entities`
+  );
+
   useEffect(() => {
-    const abortController = new AbortController();
+    if (data.length == 0) return;
 
-    const fetchGame = async () => {
-      try {
-        const response = await fetchGet(
-          `games/images/${gameId}/entities`,
-          abortController.signal
-        );
-
-        const jsonData = await response.json();
-        if (!response.ok) {
-          setError(jsonData.message);
-        } else {
-          const output = jsonData.output;
-
-          setImage(output.imageUrl);
-          setEntities(
-            output.Entities.map((values) => {
-              return { ...values, selected: false };
-            })
-          );
-        }
-      } catch (error) {
-        if (!error.name === "AbortError") {
-          console.error(error.message);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGame();
-
-    return () => abortController.abort();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setImage(data.imageUrl);
+    setEntities(
+      data.Entities.map((values) => {
+        return { ...values, selected: false };
+      })
+    );
+  }, [data]);
 
   useEffect(() => {
     const isAllSelected = entities.every((entity) => entity.selected == true);
@@ -86,16 +58,21 @@ const Games = () => {
 
   const handleLoad = () => {
     startDialogRef.current.show();
-    // highScoreDialogRef.current.close();
     objectDialogRef.current.close();
   };
 
   const handleImageClick = (e) => {
     const { offsetX, offsetY } = e.nativeEvent;
-    const { containedWidth, scale } = getContainedSize(e.target);
+    const { containedWidth, containedHeight, scale } = getContainedSize(
+      e.target
+    );
 
-    const containedX = getContainedX(offsetX, containedWidth, e.target.width);
-    const containedY = offsetY;
+    const containedX = getContainedPos(offsetX, containedWidth, e.target.width);
+    const containedY = getContainedPos(
+      offsetY,
+      containedHeight,
+      e.target.height
+    );
 
     const naturalPos = getNaturalPosition([containedX, containedY], scale);
 

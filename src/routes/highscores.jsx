@@ -38,15 +38,10 @@ const Highscores = () => {
     return () => abortController.abort();
   }, [gameId]);
 
-  const gameList = useGetData("games/list");
+  const { data: gameList } = useGetData("games/list");
 
   const handleSelectChange = async (e) => {
     setSearchParams({ gameId: e.target.value });
-
-    // const response = await fetchGet(`games/highscores?gameId=${gameId}`);
-    // const jsonData = await response.json();
-
-    // setHighScoreList(jsonData.output);
   };
 
   return (
