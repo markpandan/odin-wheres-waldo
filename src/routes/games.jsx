@@ -91,6 +91,7 @@ const Games = () => {
     );
 
     const naturalPos = getNaturalPosition([containedX, containedY], scale);
+    console.log(naturalPos);
 
     entities.some((entity, currentIndex) => {
       if (isInsideBox(naturalPos, entity.box) && !entity.selected) {
@@ -143,6 +144,7 @@ const Games = () => {
             />
             <StartModal
               ref={startDialogRef}
+              gameName={data.name}
               onStart={() => {
                 startDialogRef.current.close();
                 setIsGameActive(true);

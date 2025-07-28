@@ -58,7 +58,8 @@
 
 .entityImage {
   width: 4rem;
-  height: auto;
+  height: 4rem;
+  object-fit: cover;
 }
 
 .selected {

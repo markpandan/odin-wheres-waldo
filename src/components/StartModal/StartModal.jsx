@@ -1,6 +1,6 @@
 import styles from "./StartModal.module.css";
 
-const StartModal = ({ ref, onStart }) => {
+const StartModal = ({ ref, gameName, onStart }) => {
   return (
     <dialog ref={ref} className="dialog-blur">
       <div className={styles.dialogContainer}>
@@ -12,7 +12,7 @@ const StartModal = ({ ref, onStart }) => {
             <p>Targets:</p>
           </div>
           <div className={styles.bodyValue}>
-            <p>Genshin Impact</p>
+            <p>{gameName}</p>
             <p>5</p>
           </div>
         </div>

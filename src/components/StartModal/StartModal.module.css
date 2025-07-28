@@ -1,4 +1,6 @@
 .dialogContainer {
+  position: sticky;
+
   background-color: var(--secondary-color);
   padding: 1rem;
   border: none;
@@ -8,7 +10,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  position: absolute;
 
   display: flex;
   flex-direction: column;

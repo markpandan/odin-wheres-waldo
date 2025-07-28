@@ -11,6 +11,7 @@ const Home = () => {
       {error && <div>{error}</div>}
       {loading && <div>Loading</div>}
       <div className={styles.gameList}>
+        <div></div>
         {gameList.map((game) => (
           <GameCard
             key={game.id}

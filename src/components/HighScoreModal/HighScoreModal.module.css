@@ -16,4 +16,6 @@
   gap: 1rem;
   color: var(--accent-color);
   text-align: center;
+
+  position: sticky;
 }
