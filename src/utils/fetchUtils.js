@@ -1,4 +1,4 @@
-const HOST_NAME = "http://localhost:5000";
+const HOST_NAME = "https://postgresql-markpandan-7632184b.koyeb.app";
 
 export const fetchGet = async (route, signal, token) => {
   return await fetch(`${HOST_NAME}/${route}`, {
