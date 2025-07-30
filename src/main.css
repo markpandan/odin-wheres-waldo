@@ -44,7 +44,7 @@
 body {
   background-color: var(--primary-color);
   color: var(--text-color);
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-family: "Gill Sans", sans-serif;
 }
 
 hr {
