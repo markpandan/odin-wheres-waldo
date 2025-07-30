@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className={`container ${styles.navbarContainer}`}>
         <div>
           <NavLink to={"/"} className={`${styles.navbarTitle}`}>
-            <h1>Where's Waldo</h1>
+            <h1>PixelHunt</h1>
           </NavLink>
         </div>
         <ul className={styles.navbarNav}>
