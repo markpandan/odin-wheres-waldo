@@ -1,4 +1,4 @@
-const HOST_NAME = "http://localhost:5000";
+const HOST_NAME = import.meta.env.VITE_API_URL;
 
 export const fetchGet = async (route, signal, token) => {
   return await fetch(`${HOST_NAME}/${route}`, {
