@@ -49,22 +49,24 @@ const Highscores = () => {
       <h2>Highscores</h2>
       <div className={styles.dropdownContainer}>
         <label htmlFor="image">Image</label>
-        <select
-          name="image"
-          id="image"
-          value={gameId}
-          onChange={handleSelectChange}
-          className={styles.dropdownSelect}
-        >
-          <option value="" disabled>
-            Select A Game
-          </option>
-          {gameList.map((game) => (
-            <option key={game.id} value={game.id}>
-              {game.name}
+        <div className={styles.selectWrapper}>
+          <select
+            name="image"
+            id="image"
+            value={gameId}
+            onChange={handleSelectChange}
+            className={styles.dropdownSelect}
+          >
+            <option value="" disabled>
+              Select A Game
             </option>
-          ))}
-        </select>
+            {gameList.map((game) => (
+              <option key={game.id} value={game.id}>
+                {game.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <table>

@@ -1,27 +1,45 @@
 .dropdownContainer {
   text-align: center;
-}
-
-.dropdownContainer > * {
-  display: block;
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .dropdownContainer > label {
-  margin-bottom: 16px;
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-.dropdownSelect {
+.selectWrapper {
   position: relative;
-  padding: 0.5rem 1rem;
-  border-radius: 16px;
   background-color: var(--secondary-color);
   color: var(--text-color);
 
   font-size: 1.5rem;
-  border-style: none;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.selectWrapper::after {
+  content: "▼";
+  font-size: 1rem;
+  top: 25%;
+  right: 1rem;
+  position: absolute;
+}
+
+.dropdownSelect {
+  appearance: none;
+  --webkit-appearamce: none;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 3rem 0.5rem 1rem;
+
+  font-size: inherit;
+  background-color: inherit;
+  color: inherit;
+  border: none;
 }
 
 .highScoreEntry > td {
