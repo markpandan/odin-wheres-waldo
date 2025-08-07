@@ -1,4 +1,4 @@
-const HOST_NAME = "https://wheres-waldo-markpandan-7632184b.koyeb.app";
+const HOST_NAME = "http://localhost:5000";
 
 export const fetchGet = async (route, signal, token) => {
   return await fetch(`${HOST_NAME}/${route}`, {

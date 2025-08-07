@@ -1,4 +1,41 @@
 .dropdownContainer {
-  display: flex;
-  justify-content: center;
+  text-align: center;
+}
+
+.dropdownContainer > * {
+  display: block;
+  margin: auto;
+}
+
+.dropdownContainer > label {
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.dropdownSelect {
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+
+  font-size: 1.5rem;
+  border-style: none;
+}
+
+.highScoreEntry > td {
+  background-color: var(--secondary-color);
+}
+
+.highScoreEntry > td:first-child {
+  border-radius: 1rem 0 0 1rem;
+}
+
+.highScoreEntry > td:last-child {
+  border-radius: 0 1rem 1rem 0;
+}
+
+.hi .highScoreList {
+  margin-top: 1rem;
 }

@@ -59,7 +59,8 @@ dialog {
 
 table {
   text-align: center;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 1rem;
 }
 
 td,
@@ -69,10 +70,7 @@ th {
 
 th {
   font-size: 1.5rem;
-}
-
-tr {
-  border-bottom: 1px solid var(--accent-color);
+  border-bottom: 1px solid white;
 }
 
 form {

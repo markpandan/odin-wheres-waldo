@@ -48,24 +48,23 @@ const Highscores = () => {
     <div className="container page-container">
       <h2>Highscores</h2>
       <div className={styles.dropdownContainer}>
-        <div>
-          <label htmlFor="image">Image: </label>
-          <select
-            name="image"
-            id="image"
-            value={gameId}
-            onChange={handleSelectChange}
-          >
-            <option value="" disabled>
-              Select A Game
+        <label htmlFor="image">Image</label>
+        <select
+          name="image"
+          id="image"
+          value={gameId}
+          onChange={handleSelectChange}
+          className={styles.dropdownSelect}
+        >
+          <option value="" disabled>
+            Select A Game
+          </option>
+          {gameList.map((game) => (
+            <option key={game.id} value={game.id}>
+              {game.name}
             </option>
-            {gameList.map((game) => (
-              <option key={game.id} value={game.id}>
-                {game.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          ))}
+        </select>
       </div>
 
       <table>
@@ -75,9 +74,9 @@ const Highscores = () => {
             <th>Time Finished</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.highScoreList}>
           {highScoreList.map((list) => (
-            <tr key={list.id}>
+            <tr key={list.id} className={styles.highScoreEntry}>
               <td>{list.name}</td>
               <td>{list.time}</td>
             </tr>
